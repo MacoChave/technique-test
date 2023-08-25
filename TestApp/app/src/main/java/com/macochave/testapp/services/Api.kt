@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 
-const val BASE_URL = "https://localhost:5001/api/"
+const val BASE_URL = "https://localhost:5000/api/"
 
 interface Api {
     @FormUrlEncoded

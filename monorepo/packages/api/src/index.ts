@@ -1,7 +1,7 @@
 import cors from 'cors';
 import express from 'express';
-
-import { Workspace } from 'types';
+import { router } from './routes';
+import { connection } from './config/mysql';
 
 const app = express();
 const port = 5000;
@@ -12,28 +12,21 @@ app.use(
 	})
 );
 
-app.get('/workspaces', (_, response) => {
-	const workspaces: Workspace[] = [
-		{
-			id: '1',
-			name: 'api',
-			version: '1.0.0',
-		},
-		{
-			id: '2',
-			name: 'types',
-			version: '1.0.0',
-		},
-		{
-			id: '3',
-			name: 'web',
-			version: '1.0.0',
-		},
-	];
-
-	response.json({ data: workspaces });
-});
+app.use('/api', router);
 
 app.listen(port, () => {
 	console.log(`API listening at http://localhost:${port}`);
 });
+
+const DBTestConn = async () => {
+	const conn = await connection();
+	conn.ping()
+		.then(() => {
+			console.log('DB connection established');
+		})
+		.catch((err) => {
+			console.error('DB connection failed', err);
+		});
+};
+
+DBTestConn();
